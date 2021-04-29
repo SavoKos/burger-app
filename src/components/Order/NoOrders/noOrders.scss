@@ -1,0 +1,25 @@
+.no-orders {
+  text-align: center;
+
+  h1 {
+    margin-bottom: 50px;
+  }
+
+  .start-ordering {
+    font-weight: 600;
+    background-color: #fbab17;
+    padding: 10px 30px;
+    cursor: pointer;
+    border-radius: 60px;
+    transition: all ease 0.3s;
+    color: #fff;
+    border: 2px solid transparent;
+    display: block;
+    width: fit-content;
+    margin: auto;
+
+    &:active {
+      transform: scale(1.1);
+    }
+  }
+}

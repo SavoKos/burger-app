@@ -1,0 +1,45 @@
+$gradient-primary: linear-gradient(90deg, #fab005 5%, #ff8787 95%);
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+}
+
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  line-height: 1.4;
+  min-height: 100vh;
+}
+
+a {
+  text-decoration: none;
+}
+
+button {
+  padding: 15px 40px;
+  cursor: pointer;
+  border-radius: 60px;
+  outline: 0;
+  color: #fff;
+  font-weight: bold;
+  border: 0;
+  text-align: center;
+  transition: all ease 0.3s;
+
+  &:active {
+    transform: scale(1.1);
+  }
+}

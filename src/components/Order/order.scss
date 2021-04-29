@@ -1,0 +1,25 @@
+.order {
+  width: 80%;
+  border: 1px solid #b6b6b6;
+  padding: 10px 30px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ff6969;
+
+  .info .price {
+    color: #fbab17;
+  }
+
+  .burger {
+    width: 10%;
+    height: 100px;
+  }
+}
+
+@media only screen and (max-width: 1199px) {
+  .order .burger {
+    width: 15%;
+  }
+}

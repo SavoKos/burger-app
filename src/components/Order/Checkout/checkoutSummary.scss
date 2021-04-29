@@ -1,0 +1,38 @@
+.checkout-summary {
+  text-align: center;
+
+  .btn {
+    margin-top: -50px;
+    text-align: center;
+    button.cancel {
+      background-color: #ff0000;
+      margin-right: 20px;
+
+      &:hover {
+        background-color: #6b0000;
+      }
+    }
+
+    button.continue {
+      background-color: #079400;
+
+      &:hover {
+        background-color: #044900;
+      }
+    }
+  }
+
+  .burger {
+    margin: 50px auto;
+    width: 500px;
+    height: 350px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .checkout-summary {
+    .burger {
+      width: 100%;
+    }
+  }
+}

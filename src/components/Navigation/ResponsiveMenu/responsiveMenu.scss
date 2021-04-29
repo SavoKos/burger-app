@@ -1,0 +1,33 @@
+.hamburger-menu {
+  justify-content: flex-end;
+  align-items: center;
+  padding: 30px 50px;
+  background-color: #ff6969;
+  color: #fff;
+  display: none;
+
+  i {
+    cursor: pointer;
+  }
+
+  .logo img {
+    width: 45px;
+  }
+
+  .logo {
+    font-weight: 800;
+    font-size: 25px;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .hamburger-menu {
+    display: flex;
+    justify-content: space-between;
+  }
+}
