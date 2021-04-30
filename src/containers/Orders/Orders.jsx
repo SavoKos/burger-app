@@ -22,7 +22,6 @@ class Orders extends Component {
     if (this.props.noOrdersFound) return <NoOrders />;
 
     return Object.values(this.props.order).map(order => {
-      console.log(order);
       return (
         <Order
           ingredients={order.ingredients}
