@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router';
+
+import Spinner from '../../components/UI/Spinner/Spinner';
 import Login from '../../components/Auth/Login/Login';
 import Signup from '../../components/Auth/Signup/Signup';
 
@@ -16,11 +20,7 @@ class Auth extends Component {
   checkErrors = info => {
     const errorMessage = [];
 
-    const doesNameExists = Object.keys(info).find(key => key === 'name');
     const emailValidateRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-    if (doesNameExists && info.name.replace(/\s/g, '').length < 5)
-      errorMessage.push('Enter Full Name');
 
     if (info.password.length < 7)
       errorMessage.push('Password must be at least 7 characters long!');
@@ -31,12 +31,13 @@ class Auth extends Component {
     return errorMessage;
   };
 
-  signupHandler = info => {
+  authHandler = info => {
     const error = this.checkErrors(info);
     if (error !== []) return error;
   };
 
   render() {
+    if (this.props.isLogged) return <Redirect to="/" />;
     const signupClass = ['signup'];
     const loginClass = ['login'];
 
@@ -44,21 +45,34 @@ class Auth extends Component {
       ? loginClass.push('slide-up')
       : signupClass.push('slide-up');
 
+    if (this.props.loading) return <Spinner />;
+
     return (
       <div className="form-structor">
         <Signup
           signupClass={signupClass.join(' ')}
           signupActive={this.signupActiveHandler}
-          trySignup={info => this.signupHandler(info)}
+          trySignup={info => this.authHandler(info)}
+          backendError={this.props.signupError}
         />
         <Login
           loginClass={loginClass.join(' ')}
           loginActive={this.loginActiveHandler}
-          tryLogin={info => this.signupHandler(info)}
+          tryLogin={info => this.authHandler(info)}
+          backendError={this.props.loginError}
         />
       </div>
     );
   }
 }
 
-export default Auth;
+const mapStateToProps = state => {
+  return {
+    loading: state.auth.loading,
+    loginError: state.auth.loginError,
+    signupError: state.auth.signupError,
+    isLogged: state.auth.isLogged,
+  };
+};
+
+export default connect(mapStateToProps)(Auth);

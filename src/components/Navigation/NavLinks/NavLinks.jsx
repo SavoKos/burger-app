@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import { NavLink } from 'react-router-dom';
 
@@ -27,10 +28,16 @@ const NavLinks = props => {
         activeClassName="active"
         onClick={props.closeSlider}
       >
-        Login
+        {props.isLogged ? 'Logout' : 'Login'}
       </NavLink>
     </div>
   );
 };
 
-export default NavLinks;
+const mapStateToProps = state => {
+  return {
+    isLogged: state.auth.isLogged,
+  };
+};
+
+export default connect(mapStateToProps)(NavLinks);

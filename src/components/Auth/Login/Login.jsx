@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { auth } from '../../../store/actions/auth';
 
 import './login.scss';
 class Login extends Component {
   state = {
     password: '',
     email: '',
+    authType: 'signInWithPassword',
     error: [],
   };
 
@@ -14,7 +17,12 @@ class Login extends Component {
 
   checkErrors = () => {
     const isError = this.props.tryLogin(this.state);
-    if (isError !== []) this.setState({ error: isError });
+    if (isError.length > 0) return this.setState({ error: isError });
+    this.props.onAuth(
+      this.state.email,
+      this.state.password,
+      this.state.authType
+    );
   };
 
   render() {
@@ -56,10 +64,18 @@ class Login extends Component {
           <button className="submit-btn" onClick={this.checkErrors}>
             Log in
           </button>
+          <p className="error-message">{this.props.backendError}</p>
         </div>
       </div>
     );
   }
 }
 
-export default Login;
+const mapDispatchToProps = dispatch => {
+  return {
+    onAuth: (email, password, authType) =>
+      dispatch(auth(email, password, authType)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(Login);

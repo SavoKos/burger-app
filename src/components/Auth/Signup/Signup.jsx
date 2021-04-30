@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
+import { auth } from '../../../store/actions/auth';
 
 import './signup.scss';
 
@@ -6,17 +9,22 @@ class Signup extends Component {
   state = {
     password: '',
     email: '',
-    name: '',
+    authType: 'signUp',
     error: [],
   };
 
   updateInputValueHandler = event => {
-    this.setState({ [event.target.name]: event.target.value });
+    this.setState({ [event.target.type]: event.target.value });
   };
 
   checkErrors = () => {
     const isError = this.props.trySignup(this.state);
-    if (isError !== []) this.setState({ error: isError });
+    if (isError.length > 0) return this.setState({ error: isError });
+    this.props.onAuth(
+      this.state.email,
+      this.state.password,
+      this.state.authType
+    );
   };
 
   render() {
@@ -39,13 +47,6 @@ class Signup extends Component {
         </h2>
         <div className="form-holder">
           <input
-            type="text"
-            className="input"
-            placeholder="Name"
-            name="name"
-            onChange={event => this.updateInputValueHandler(event)}
-          />
-          <input
             type="email"
             className="input"
             placeholder="Email"
@@ -64,9 +65,17 @@ class Signup extends Component {
         <button className="submit-btn" onClick={this.checkErrors}>
           Sign up
         </button>
+        <p className="error-message">{this.props.backendError}</p>
       </div>
     );
   }
 }
 
-export default Signup;
+const mapDispatchToProps = dispatch => {
+  return {
+    onAuth: (email, password, authType) =>
+      dispatch(auth(email, password, authType)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(Signup);

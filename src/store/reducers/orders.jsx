@@ -31,7 +31,7 @@ const fetchOrders = (state, orders) => {
   };
 };
 
-export default (
+const reducer = (
   state = initialState,
   { type, id, orderData, fetchedOrders }
 ) => {
@@ -50,3 +50,5 @@ export default (
       return state;
   }
 };
+
+export default reducer;
