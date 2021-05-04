@@ -7,11 +7,12 @@ export const startOrdering = () => {
   };
 };
 
-export const sendOrderBurgerRequest = orderData => {
+export const sendOrderBurgerRequest = (orderData, token, userId) => {
   return dispatch => {
     dispatch(startOrdering());
+
     axios
-      .post('orders.json', orderData)
+      .post(`orders.json?auth=${token}`, orderData)
       .then(response => {
         return dispatch(orderBurger(response.data.name, orderData));
       })
@@ -35,6 +36,12 @@ export const initPurchase = () => {
   };
 };
 
+export const initRedirected = () => {
+  return {
+    type: actionTypes.INIT_REDIRECTED,
+  };
+};
+
 export const fetchOrdersStart = () => {
   return {
     type: actionTypes.INIT_LOADING,
@@ -54,14 +61,16 @@ export const fetchOrdersFailed = () => {
   };
 };
 
-export const startFetchingOrders = () => {
+export const startFetchingOrders = (token, userId) => {
   return dispatch => {
     dispatch(fetchOrdersStart());
+
+    const queryParams = `?auth=${token}&orderBy="userId"&equalTo="${userId}"`;
     axios
-      .get('orders.json')
+      .get(`orders.json${queryParams}`)
       .then(res => {
-        console.log(res);
-        if (!res.data) return dispatch(fetchOrdersFailed());
+        if (!res.data || Object.keys(res.data).length < 1)
+          return dispatch(fetchOrdersFailed());
         return dispatch(fetchOrders(res.data));
       })
       .catch(error => console.log(error));

@@ -6,13 +6,17 @@ import Order from '../../components/Order/Order';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import NoOrders from '../../components/Order/NoOrders/NoOrders';
 import { startFetchingOrders } from '../../store/actions/orders';
+import { Redirect } from 'react-router';
 
 class Orders extends Component {
   componentDidMount() {
-    this.props.onFetchOrder();
+    if (this.props.token)
+      this.props.onFetchOrder(this.props.token, this.props.userId);
   }
 
   render() {
+    if (!this.props.token) return <Redirect to="/auth" />;
+
     if (
       (Object.keys(this.props.order).length === 0 &&
         !this.props.noOrdersFound) ||
@@ -38,12 +42,15 @@ const mapStateToProps = state => {
     order: state.orders.orders,
     noOrdersFound: state.orders.noOrdersFound,
     loading: state.orders.loading,
+    token: state.auth.token,
+    userId: state.auth.userId,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onFetchOrder: () => dispatch(startFetchingOrders()),
+    onFetchOrder: (token, userId) =>
+      dispatch(startFetchingOrders(token, userId)),
   };
 };
 

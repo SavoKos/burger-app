@@ -2,7 +2,7 @@
   background-color: #222;
   border-radius: 15px;
   height: 550px;
-  width: 25%;
+  width: 40%;
   position: relative;
   overflow: hidden;
 
@@ -123,5 +123,23 @@
         background-color: #ff6969;
       }
     }
+  }
+}
+
+@media only screen and (max-width: 1500px) {
+  .form-structor {
+    width: 50%;
+  }
+}
+
+@media only screen and (max-width: 850px) {
+  .form-structor {
+    width: 70%;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .form-structor {
+    width: 90%;
   }
 }

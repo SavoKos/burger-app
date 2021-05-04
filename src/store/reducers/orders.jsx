@@ -5,6 +5,7 @@ const initialState = {
   orders: [],
   purchased: false,
   noOrdersFound: true,
+  isRedirected: false,
 };
 
 const orderBurger = (state, id, orderData) => {
@@ -19,10 +20,12 @@ const orderBurger = (state, id, orderData) => {
     loading: false,
     orders: updatedOrders,
     purchased: true,
+    isRedirected: true,
   };
 };
 
 const fetchOrders = (state, orders) => {
+  console.log(orders);
   return {
     ...state,
     loading: false,
@@ -42,6 +45,8 @@ const reducer = (
       return orderBurger(state, id, orderData);
     case actionTypes.INIT_PURCHASE:
       return { ...state, purchased: false };
+    case actionTypes.INIT_REDIRECTED:
+      return { ...state, isRedirected: false };
     case actionTypes.FETCH_ORDERS_FAILED:
       return { ...state, loading: false, noOrdersFound: true };
     case actionTypes.FETCH_ORDERS:

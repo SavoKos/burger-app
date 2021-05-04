@@ -5,6 +5,9 @@
   background-color: #ff6969;
   color: #fff;
   display: none;
+  position: fixed;
+  width: 100%;
+  z-index: 6;
 
   i {
     cursor: pointer;

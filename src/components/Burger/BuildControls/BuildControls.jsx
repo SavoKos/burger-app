@@ -4,6 +4,7 @@ import uniqid from 'uniqid';
 import './BuildControls.scss';
 
 import BuildControl from './BuildControl';
+import { connect } from 'react-redux';
 
 const BuildControls = props => {
   const controlJSX = Object.keys(props.ingredients).map(ing => (
@@ -20,10 +21,16 @@ const BuildControls = props => {
       <p className="total-price">Total: ${props.price.toFixed(2)}</p>
       {controlJSX}
       <button disabled={props.purchasedIngredients < 1} onClick={props.order}>
-        Order NOW
+        {props.authToken ? 'Order NOW' : 'Login to order'}
       </button>
     </div>
   );
 };
 
-export default BuildControls;
+const mapStateToProps = state => {
+  return {
+    authToken: state.auth.token,
+  };
+};
+
+export default connect(mapStateToProps)(BuildControls);

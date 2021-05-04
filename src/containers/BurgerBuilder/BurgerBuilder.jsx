@@ -15,6 +15,8 @@ import {
   reinitializeState,
   removeIngredient,
 } from '../../store/actions/burgerBuilderActons';
+import { Redirect } from 'react-router';
+import { authRedirectDisable } from '../../store/actions/auth';
 
 class App extends Component {
   state = {
@@ -23,9 +25,10 @@ class App extends Component {
   };
 
   componentDidMount = () => {
-    this.props.onInitIngredients();
-    this.props.onInitPurchase();
-    this.props.onReinitializeState();
+    if (this.props.purchasedIngredients === 0) this.props.onInitIngredients();
+    this.props.onAuthRedirectDisable();
+    // this.props.onInitPurchase();
+    // this.props.onReinitializeState();
   };
 
   checkoutHandler = () => {
@@ -44,6 +47,9 @@ class App extends Component {
     let burger,
       orderSummary = <Spinner />;
 
+    if (!this.props.isAuth && this.state.purchasing)
+      return <Redirect to="/auth" />;
+
     if (this.props.ingredients)
       burger = (
         <Fragment>
@@ -53,7 +59,7 @@ class App extends Component {
             add={this.props.onAddIngredient}
             remove={this.props.onRemoveIngredient}
             price={this.props.totalPrice}
-            purchasedIngredients={this.state.purchasedIngredients}
+            purchasedIngredients={this.props.purchasedIngredients}
             order={this.checkoutHandler}
           />
         </Fragment>
@@ -89,6 +95,7 @@ const mapStateToProps = state => {
     ingredients: state.burgerBuilder.ingredients,
     totalPrice: state.burgerBuilder.totalPrice,
     purchasedIngredients: state.burgerBuilder.purchasedIngredients,
+    isAuth: state.auth.token,
   };
 };
 
@@ -99,6 +106,7 @@ const mapDispatchToProps = dispatch => {
     onInitIngredients: () => dispatch(initIngredients()),
     onInitPurchase: () => dispatch(initPurchase()),
     onReinitializeState: () => dispatch(reinitializeState()),
+    onAuthRedirectDisable: () => dispatch(authRedirectDisable()),
   };
 };
 

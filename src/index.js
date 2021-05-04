@@ -10,6 +10,7 @@ import registerServiceWorker from './root/registerServiceWorker';
 import burgerBuilderReducer from './store/reducers/burgerBuilder';
 import ordersReducer from './store/reducers/orders';
 import authReducer from './store/reducers/auth';
+import navReducer from './store/reducers/navigation';
 
 import './root/index.scss';
 
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   burgerBuilder: burgerBuilderReducer,
   orders: ordersReducer,
   auth: authReducer,
+  navigation: navReducer,
 });
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 

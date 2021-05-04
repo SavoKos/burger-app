@@ -1,13 +1,14 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router';
 
 import Spinner from '../../components/UI/Spinner/Spinner';
 import Login from '../../components/Auth/Login/Login';
 import Signup from '../../components/Auth/Signup/Signup';
+import Logout from '../../components/Auth/Logout/Logout';
+import { Redirect } from 'react-router';
 
 class Auth extends Component {
-  state = { isSignupActive: true };
+  state = { isSignupActive: false };
 
   signupActiveHandler = () => {
     this.setState({ isSignupActive: true });
@@ -37,15 +38,25 @@ class Auth extends Component {
   };
 
   render() {
-    if (this.props.isLogged) return <Redirect to="/" />;
+    if (this.props.loading)
+      return (
+        <Fragment>
+          <Spinner />
+          <h1>You are successfully logged in.</h1>
+          <h3>Redirecting...</h3>
+        </Fragment>
+      );
+
+    if (this.props.isRedirecting) return <Redirect to="/" />;
+
+    if (this.props.isAuth) return <Logout />;
+
     const signupClass = ['signup'];
     const loginClass = ['login'];
 
     this.state.isSignupActive
       ? loginClass.push('slide-up')
       : signupClass.push('slide-up');
-
-    if (this.props.loading) return <Spinner />;
 
     return (
       <div className="form-structor">
@@ -71,7 +82,8 @@ const mapStateToProps = state => {
     loading: state.auth.loading,
     loginError: state.auth.loginError,
     signupError: state.auth.signupError,
-    isLogged: state.auth.isLogged,
+    isAuth: state.auth.token,
+    isRedirecting: state.auth.redirect,
   };
 };
 

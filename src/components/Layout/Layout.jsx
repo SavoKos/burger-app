@@ -1,4 +1,6 @@
 import React, { Fragment, Component } from 'react';
+import { connect } from 'react-redux';
+import { closeSlider, openSlider } from '../../store/actions/navigation';
 
 import Navigation from '../Navigation/Navigation';
 import ResponsiveMenu from '../Navigation/ResponsiveMenu/ResponsiveMenu';
@@ -6,33 +8,27 @@ import ResponsiveMenu from '../Navigation/ResponsiveMenu/ResponsiveMenu';
 import './content.scss';
 
 class Layout extends Component {
-  state = {
-    sliderOpened: false,
-  };
-
-  closeSlider = () => {
-    this.setState({ sliderOpened: false });
-  };
-
-  openSlider = () => {
-    this.setState({ sliderOpened: true });
-  };
-
-  sliderHandler = () => {};
-
   render() {
     return (
       <Fragment>
         <Navigation />
-        <ResponsiveMenu
-          openSlider={this.openSlider}
-          closeSlider={this.closeSlider}
-          active={this.state.sliderOpened}
-        />
+        <ResponsiveMenu />
         <main className="content">{this.props.children}</main>
       </Fragment>
     );
   }
 }
+const mapStateToProps = state => {
+  return {
+    sliderOpened: state.navigation.sliderOpened,
+  };
+};
 
-export default Layout;
+const mapDispatchToProps = dispatch => {
+  return {
+    onSliderClose: () => dispatch(closeSlider()),
+    onSliderOpen: () => dispatch(openSlider()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Layout);

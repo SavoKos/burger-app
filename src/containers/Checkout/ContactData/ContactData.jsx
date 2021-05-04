@@ -4,11 +4,18 @@ import { Redirect } from 'react-router-dom';
 
 import Select from '../../../components/UI/Select/Select';
 import Spinner from '../../../components/UI/Spinner/Spinner';
-import { sendOrderBurgerRequest } from '../../../store/actions/orders';
+import {
+  initRedirected,
+  sendOrderBurgerRequest,
+} from '../../../store/actions/orders';
 
 import './contactData.scss';
 
 class ContactData extends Component {
+  componentDidMount() {
+    this.props.onInitRedirected();
+  }
+
   inputData = (type, name, placeholder, value, required) => {
     if (name === 'delivery') return { type, name, value };
     return {
@@ -53,15 +60,17 @@ class ContactData extends Component {
       ingredients: this.props.ingredients,
       price: this.props.totalPrice,
       customer: orderForm,
+      userId: this.props.userId,
     };
 
-    this.props.onBurgerOrder(order);
+    this.props.onBurgerOrder(order, this.props.token);
   };
 
   render() {
     if (!this.props.ingredients) return <Redirect to="/" />;
-
     if (this.props.loading) return <Spinner />;
+
+    if (this.props.isRedirected) return <Redirect to="/purchased" />;
 
     const data = Object.keys(this.state.orderForm).map(el => {
       const orderFormEl = this.state.orderForm[el];
@@ -106,12 +115,17 @@ const mapStateToProps = state => {
     ingredients: state.burgerBuilder.ingredients,
     totalPrice: state.burgerBuilder.totalPrice,
     loading: state.orders.loading,
+    isRedirected: state.orders.isRedirected,
+    token: state.auth.token,
+    userId: state.auth.userId,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onBurgerOrder: orderData => dispatch(sendOrderBurgerRequest(orderData)),
+    onBurgerOrder: (orderData, token) =>
+      dispatch(sendOrderBurgerRequest(orderData, token)),
+    onInitRedirected: () => dispatch(initRedirected()),
   };
 };
 

@@ -6,24 +6,28 @@ const initialState = {
   token: null,
   signupError: null,
   loginError: null,
-  isLogged: false,
+  redirect: false,
 };
 
 const reducer = (
   state = initialState,
-  { type, errorType, errorMessage, authData }
+  { type, errorType, errorMessage, authData, LSToken, LSUserId }
 ) => {
   switch (type) {
     case actionTypes.AUTH_START:
       return { ...state, loading: true, signupError: null, loginError: null };
     case actionTypes.AUTH_FAIL:
       return { ...state, loading: false, [errorType]: errorMessage };
+    case actionTypes.AUTH_REDIRECT_DISABLE:
+      return { ...state, redirect: false };
+    case actionTypes.LOAD_LOCAL_STORAGE:
+      return { ...state, token: LSToken };
     case actionTypes.LOGOUT:
-      return { ...state, userId: null, token: null, isLogged: false };
+      return { ...state, userId: null, token: null };
     case actionTypes.AUTH_SUCCESS:
       return {
         ...state,
-        isLogged: true,
+        redirect: true,
         token: authData.idToken,
         loading: false,
         userId: authData.localId,
