@@ -84,7 +84,6 @@ export const auth = (email, password, authType) => {
       )
       .then(response => {
         const expirationDate = new Date(+new Date() + 3600 * 1000);
-        console.log(+expirationDate);
 
         localStorage.setItem('token', response.data.idToken);
         localStorage.setItem('expirationDate', expirationDate);

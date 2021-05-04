@@ -8,11 +8,14 @@ import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import Modal from '../../components/UI/Modal/Modal';
 import Spinner from '../../components/UI/Spinner/Spinner';
-import { initPurchase } from '../../store/actions/orders';
+import {
+  initPurchase,
+  reinitializeOrderState,
+} from '../../store/actions/orders';
 import {
   addIngredient,
   initIngredients,
-  reinitializeState,
+  reinitializeBurgerState,
   removeIngredient,
 } from '../../store/actions/burgerBuilderActons';
 import { Redirect } from 'react-router';
@@ -27,8 +30,7 @@ class App extends Component {
   componentDidMount = () => {
     if (this.props.purchasedIngredients === 0) this.props.onInitIngredients();
     this.props.onAuthRedirectDisable();
-    // this.props.onInitPurchase();
-    // this.props.onReinitializeState();
+    this.props.onReinitializeOrderState();
   };
 
   checkoutHandler = () => {
@@ -105,7 +107,8 @@ const mapDispatchToProps = dispatch => {
     onRemoveIngredient: ingredient => dispatch(removeIngredient(ingredient)),
     onInitIngredients: () => dispatch(initIngredients()),
     onInitPurchase: () => dispatch(initPurchase()),
-    onReinitializeState: () => dispatch(reinitializeState()),
+    onReinitializeState: () => dispatch(reinitializeBurgerState()),
+    onReinitializeOrderState: () => dispatch(reinitializeOrderState()),
     onAuthRedirectDisable: () => dispatch(authRedirectDisable()),
   };
 };

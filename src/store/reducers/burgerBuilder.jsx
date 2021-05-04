@@ -66,7 +66,7 @@ const reducer = (
       return removeIngredient(state, ingredientName);
     case actionTypes.SET_INGREDIENTS:
       return { ...state, ingredients: fetchedIngredients };
-    case actionTypes.REINITIALIZE_STATE:
+    case actionTypes.REINITIALIZE_BURGER_STATE:
       return { ...initialState };
     default:
       return state;

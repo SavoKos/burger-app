@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
 import CheckoutSummary from '../../components/Order/Checkout/CheckoutSummary';
-import { reinitializeState } from '../../store/actions/burgerBuilderActons';
+import { reinitializeBurgerState } from '../../store/actions/burgerBuilderActons';
 
 class Checkout extends Component {
   checkoutCancelHandler = () => {
@@ -45,7 +45,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onCheckoutCancel: () => dispatch(reinitializeState()),
+    onCheckoutCancel: () => dispatch(reinitializeBurgerState()),
   };
 };
 

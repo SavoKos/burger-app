@@ -33,8 +33,8 @@ export const initIngredients = () => {
   };
 };
 
-export const reinitializeState = () => {
+export const reinitializeBurgerState = () => {
   return {
-    type: actionTypes.REINITIALIZE_STATE,
+    type: actionTypes.REINITIALIZE_BURGER_STATE,
   };
 };

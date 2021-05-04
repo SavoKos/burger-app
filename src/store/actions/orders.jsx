@@ -7,7 +7,7 @@ export const startOrdering = () => {
   };
 };
 
-export const sendOrderBurgerRequest = (orderData, token, userId) => {
+export const sendOrderBurgerRequest = (orderData, token) => {
   return dispatch => {
     dispatch(startOrdering());
 
@@ -55,6 +55,12 @@ export const fetchOrders = order => {
   };
 };
 
+export const reinitializeOrderState = () => {
+  return {
+    type: actionTypes.REINITIALIZE_ORDER_STATE,
+  };
+};
+
 export const fetchOrdersFailed = () => {
   return {
     type: actionTypes.FETCH_ORDERS_FAILED,
@@ -71,6 +77,7 @@ export const startFetchingOrders = (token, userId) => {
       .then(res => {
         if (!res.data || Object.keys(res.data).length < 1)
           return dispatch(fetchOrdersFailed());
+
         return dispatch(fetchOrders(res.data));
       })
       .catch(error => console.log(error));
